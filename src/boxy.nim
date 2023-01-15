@@ -141,8 +141,8 @@ proc createAtlasTexture(boxy: Boxy, size: int): Texture =
   result.componentType = GL_UNSIGNED_BYTE
   result.format = GL_RGBA
   result.internalFormat = GL_RGBA8
-  result.minFilter = minLinear
-  result.magFilter = magLinear
+  result.minFilter = minNearest
+  result.magFilter = magNearest
   bindTextureData(result, nil)
 
 proc addLayerTexture(boxy: Boxy, frameSize = ivec2(1, 1)) =
@@ -727,7 +727,8 @@ proc blurEffect*(boxy: Boxy, radius: float32) =
     layerTexture
   )
 
-proc dropShadowEffect*(boxy: Boxy, tint: Color, offset: Vec2, radius, spread: float32) =
+proc dropShadowEffect*(boxy: Boxy, tint: Color, offset: Vec2, radius,
+    spread: float32) =
   ## Drop shadows the current layer
   if boxy.layerNum == -1:
     raise newException(BoxyError, "shadowLayer called without pushLayer")
